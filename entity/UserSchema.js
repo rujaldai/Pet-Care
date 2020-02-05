@@ -20,10 +20,30 @@ var userSchema = sequelize.define('user',
 		type: Sequelize.TEXT,
 		allowNull: false	
 	},
+	fullname: {
+		type: Sequelize.TEXT,
+		allowNull: false	
+	},
 	user_type: {
 		type: Sequelize.TEXT,
 		allowNull: false
-	}		
+	},
+	address1:{
+		type: Sequelize.TEXT,
+		allowNull: false
+	},
+	address2:{
+		type: Sequelize.TEXT,
+		allowNull: true
+	},
+	phone:{
+		type: Sequelize.TEXT,
+		allowNull: true
+	},
+	mobile:{
+		type: Sequelize.TEXT,
+		allowNull: false
+	}
 }, {
 	//Options
 	paranoid: true,
@@ -31,7 +51,7 @@ var userSchema = sequelize.define('user',
 	tableName: 'users'
 });
 
-userSchema.sync({ /* stop forcing updating table */ force: true})
+userSchema.sync({ /* stop forcing updating table */ force: false})
 .then(function(result){
 	console.log("inside userschema sync:: " + result);
 })

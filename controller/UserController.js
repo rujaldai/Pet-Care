@@ -6,14 +6,26 @@ var UserType = require("../enums/UserTypeEnum");
 
 
 function validator(req, res, next) {
-    console.log("inside validator");
+    console.log(req.body);
 	if (req.body.email === '' && req.body.password === '') {
 		res.status(500);
 		res.json({status:404, message: 'email and password is required'});
-	} else if (req.body.fullname === '') {
+	} else if (req.body.fullName === '') {
 		console.log("fullname not found ");
 		res.status(500);
 		res.json({status:500, message: 'Fullname is required'});
+	} else if (req.body.address1 === '') {
+		console.log("address not found ");
+		res.status(500);
+		res.json({status:500, message: 'address is required'});
+	} else if (req.body.mobile === '') {
+		console.log("mobile not found ");
+		res.status(500);
+		res.json({status:500, message: 'mobile is required'});
+	} else if (req.body.phone === '') {
+		console.log("phone not found ");
+		res.status(500);
+		res.json({status:500, message: 'phone is required'});
 	} else if (req.body.password === '') {
 		console.log("password not found ");
 		res.status(500);
@@ -66,22 +78,22 @@ function generateHash(req, res, next) {
 
 function updateIntoUser(user, hashedPassword) {
 	userSchema.userSchema.create({
-        full_name: user.fullname,
+		fullname: user.fullName,
+		username: user.email,
 		password: hashedPassword,
-		email: user.email,
-		user_type: user.userType,
+		user_type: UserType.MERCHANT_USER,
 		phone: user.phone,
-		mobile_phone: user.mobile,
+		mobile: user.mobile,
 		address1: user.address1,
-		address2: user.address2,
-		address3: user.address3,
-		image: user.image}).then(function(success) {
+		address2: user.address2
+	}).then(function(success) {
 		if (success) {
 			console.log("user successfully inserted");
 		} else {
 			console.log("User could not be Inserted");
 		}
 	}).catch(function(err) {
+		console.log(err);
 		console.log("err while inserting user");
 	})
 }
