@@ -102,7 +102,7 @@ function fetchUserByUsername(username) {
 	return userSchema.userSchema.findOne({
 		where: {
 			username: username
-		}
+		} 
 	});
 }
 
