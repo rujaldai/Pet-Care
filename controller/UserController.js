@@ -9,7 +9,7 @@ function validator(req, res, next) {
     console.log(req.body);
 	if (req.body.email === '' && req.body.password === '') {
 		res.status(500);
-		res.json({status:404, message: 'email and password is required'});
+		res.json({status:500, message: 'email and password is required'});
 	} else if (req.body.fullName === '') {
 		console.log("fullname not found ");
 		res.status(500);
@@ -67,11 +67,11 @@ function generateHash(req, res, next) {
 		if (hash) {
 			console.log(hash);
 			updateIntoUser(req.body, hash);
-			res.json({token: hash});
+			res.json({token: hash, status: 200, message: "User successfully inserted!"});
 		} else if (err) {
 
 			console.log(err);
-			res.json({message: "cannot generateHash"});
+			res.json({message: "cannot generateHash", status: 500});
 		}
 	});
 }
@@ -91,35 +91,43 @@ function updateIntoUser(user, hashedPassword) {
 			console.log("user successfully inserted");
 		} else {
 			console.log("User could not be Inserted");
+			res.status(500);
+			res.json({message: "Could not insert USER!!!", status: 500})
 		}
 	}).catch(function(err) {
 		console.log(err);
 		console.log("err while inserting user");
+		res.status(500);
+			res.json({message: "Could not insert USER!!!", status: 500})
 	})
 }
 
 function deleteUser (req, res, next) {
 	if (req.params.id === null || req.params.id === undefined) {
-		res.status(404);
-		res.json({message: "please specify id"});
-	}
-	userSchema.userSchema.destroy({
-		where: {
-			id: req.params.id
-		}
-	})
-	.then(function(result) {
-		console.log(result);
-		if (result === 0) {
+		res.status(500);
+		res.json({message: "please specify id", status: 500});
+	} else {
+		userSchema.userSchema.destroy({
+			where: {
+				id: req.params.id
+			}
+		})
+		.then(function(result) {
+			console.log(result);
+			if (result === 0) {
+				res.status(500)
+				res.json({status: "500", message: "Could not delete."});
+			}
+			res.status(200);
+			res.json({message: "success", status: 200});
+		})
+		.catch(function(err) {
+			console.log(err);
 			res.status(500)
 			res.json({status: "500", message: "Could not delete."});
-		}
-		res.status(200);
-		res.json({message: "success"});
-	})
-	.catch(function(err) {
-		console.log(err);
-	})
+		})
+	}
+	
 }
 
 
