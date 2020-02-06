@@ -62,6 +62,7 @@ function jwtTokenGen(req, res, next) {
 	jwt.sign(payload, secretOrPrivateKey, {expiresIn: "10h"}, function(err, result) {
 		console.log(result);
 		console.log(err);
+		console.log(req.body.username);
 		var token = result;
 		userController.fetchUserByUsername(req.body.username).then(function(result){
 			if (result) {
