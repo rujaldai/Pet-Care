@@ -14,7 +14,7 @@ function validator(req, res, next) {
 		res.json({message: "username or password not found."});
 	}
 
-	console.log(req.body.username);
+	console.log(req.body);
 	console.log(users);
 	userController.fetchUserByUsername(req.body.username)
 	.then(function(result) {
@@ -30,7 +30,7 @@ function validator(req, res, next) {
 		
 	})
 	.catch(function(err) {
-
+		console.log("user not found.");
 	})
 }
 
@@ -54,6 +54,7 @@ function jwtTokenGen(req, res, next) {
 	 * sign token using payload below so that it can be decoded to get payload
 	 * payload is user details (usually)
 	 */
+	console.log("inside jwt token generator");
 	var payload = {
 		username: req.body.username, 
 		userLevel: "superadmin"
@@ -61,8 +62,27 @@ function jwtTokenGen(req, res, next) {
 	jwt.sign(payload, secretOrPrivateKey, {expiresIn: "10h"}, function(err, result) {
 		console.log(result);
 		console.log(err);
-		res.json({"userToken": result})
+		var token = result;
+		userController.fetchUserByUsername(req.body.username).then(function(result){
+			if (result) {
+				console.log("logged in user data");
+				console.log(result.username);
+				console.log(result.fullname);
+				res.json(
+						{
+							"userToken": token,
+							"fullname": result.fullname,
+							"username": result.username,
+							"status":200,
+							"message":"Login Success"
+						}
+					)		
+			} else {
+				next();	
+			}
+		});
 	});
+
 }
 
 function verifyToken(req, res, next) {
