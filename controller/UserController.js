@@ -10,7 +10,7 @@ function validator(req, res, next) {
 	if (req.body.email === '' && req.body.password === '') {
 		res.status(500);
 		res.json({status:500, message: 'email and password is required'});
-	} else if (req.body.fullName === '') {
+	} else if (req.body.fullname === '') {
 		console.log("fullname not found ");
 		res.status(500);
 		res.json({status:500, message: 'Fullname is required'});
@@ -78,7 +78,7 @@ function generateHash(req, res, next) {
 
 function updateIntoUser(user, hashedPassword) {
 	userSchema.userSchema.create({
-		fullname: user.fullName,
+		fullname: user.fullname,
 		username: user.email,
 		password: hashedPassword,
 		user_type: UserType.MERCHANT_USER,
