@@ -74,6 +74,10 @@ function jwtTokenGen(req, res, next) {
 							"userToken": token,
 							"fullname": result.fullname,
 							"username": result.username,
+							"address1":result.address1,
+							"address2":result.address2,
+							"mobile" : result.mobile,
+							"phone":result.phone,
 							"status":200,
 							"message":"Login Success"
 						}
