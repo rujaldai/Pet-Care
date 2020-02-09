@@ -10,7 +10,7 @@ function validator(req, res, next) {
 	if (req.body.email === '' && req.body.password === '') {
 		res.status(500);
 		res.json({status:500, message: 'email and password is required'});
-	} else if (req.body.fullname === '') {
+	} else if (req.body.fullName === '') {
 		console.log("fullname not found ");
 		res.status(500);
 		res.json({status:500, message: 'Fullname is required'});
@@ -30,6 +30,10 @@ function validator(req, res, next) {
 		console.log("password not found ");
 		res.status(500);
         res.json({status:500, message: 'password is required'});
+	} else if(!UserType.exists(req.body.userType)) {
+		console.log("User type invalid or not found.");
+		res.status(500);
+		res.json({status: 500, message: "User type invalid or not found"});
 	} else {
 	fetchUserByUsername(req.body.email)
 	.then(function(result){
@@ -79,13 +83,13 @@ function generateHash(req, res, next) {
 function updateIntoUser(user, hashedPassword) {
 	userSchema.userSchema.create({
 		fullname: user.fullname,
-		username: user.email,
+		email: user.email,
 		password: hashedPassword,
-		user_type: UserType.MERCHANT_USER,
+		user_type: user.userType,
 		phone: user.phone,
 		mobile: user.mobile,
 		address1: user.address1,
-		address2: user.address2
+		address2: user.address2 
 	}).then(function(success) {
 		if (success) {
 			console.log("user successfully inserted");
@@ -98,7 +102,7 @@ function updateIntoUser(user, hashedPassword) {
 		console.log(err);
 		console.log("err while inserting user");
 		res.status(500);
-			res.json({message: "Could not insert USER!!!", status: 500})
+		res.json({message: "Could not insert USER!!!", status: 500})
 	})
 }
 
@@ -134,7 +138,7 @@ function deleteUser (req, res, next) {
 function fetchUserByUsername(username) {
 	return userSchema.userSchema.findOne({
 		where: {
-			username: username
+			email: username
 		} 
 	});
 }

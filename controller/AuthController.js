@@ -10,18 +10,19 @@ var secretOrPrivateKey = "SecretKeyCanBeAnythingWhichIsUsedWhileEncodingORdEcodi
 
 function validator(req, res, next) {
 	console.log("inside validator");
-	if (req.body.username === '' || req.body.password === '') {
-		res.json({message: "username or password not found."});
+	if (req.body.email === '' || req.body.password === '') {
+		res.status(400);
+		res.json({message: "email or password not found.", status: 400});
 	}
 
 	console.log(req.body);
 	console.log(users);
-	userController.fetchUserByUsername(req.body.username)
+	userController.fetchUserByUsername(req.body.email)
 	.then(function(result) {
 		console.log("successfully found");
 		if(!result) {
 			res.status(404);
-			res.json("User not found");
+			res.json({message: "User not found", status: 404});
 		}
 		console.log(result + " here");
 		console.log(result.dataValues);
@@ -56,28 +57,23 @@ function jwtTokenGen(req, res, next) {
 	 */
 	console.log("inside jwt token generator");
 	var payload = {
-		username: req.body.username, 
+		email: req.body.email, 
 		userLevel: "superadmin"
 	}
 	jwt.sign(payload, secretOrPrivateKey, {expiresIn: "10h"}, function(err, result) {
 		console.log(result);
 		console.log(err);
-		console.log(req.body.username);
+		console.log(req.body.email);
 		var token = result;
-		userController.fetchUserByUsername(req.body.username).then(function(result){
+		userController.fetchUserByUsername(req.body.email).then(function(result){
 			if (result) {
 				console.log("logged in user data");
-				console.log(result.username);
+				console.log(result.email);
 				console.log(result.fullname);
 				res.json(
 						{
 							"userToken": token,
-							"fullname": result.fullname,
-							"username": result.username,
-							"address1":result.address1,
-							"address2":result.address2,
-							"mobile" : result.mobile,
-							"phone":result.phone,
+							"user": result,
 							"status":200,
 							"message":"Login Success"
 						}
