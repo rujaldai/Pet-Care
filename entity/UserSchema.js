@@ -12,7 +12,7 @@ var userSchema = sequelize.define('user',
 		autoIncrement: true,
 		allowNull: false
 	},
-	username: {
+	email: {
 		type: Sequelize.TEXT,
 		allowNull: false	
 	},
