@@ -20,6 +20,7 @@ function validator(req, res, next) {
 	userController.fetchUserByUsername(req.body.email)
 	.then(function(result) {
 		console.log("successfully found");
+		console.log(req.body);
 		if(!result) {
 			res.status(404);
 			res.json({message: "User not found", status: 404});
@@ -31,6 +32,7 @@ function validator(req, res, next) {
 		
 	})
 	.catch(function(err) {
+		console.log(err);
 		console.log("user not found.");
 	})
 }
@@ -91,6 +93,8 @@ function verifyToken(req, res, next) {
 	 * req.headers.authorization 	
 	 * To send from client: Bearer[space]token 
 	 */
+
+	 console.log(req);
 	 if(req.headers.authorization) {
 	 	var token = req.headers.authorization.slice(7, req.headers.authorization.size);
 	 	jwt.verify(token, secretOrPrivateKey, function(err, result) {
