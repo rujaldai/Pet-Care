@@ -1,4 +1,5 @@
 var dbConfig = require('../databaseConfig/databaseConnection.js');
+var User = require('./UserSchema');
 var sequelize = dbConfig.sequelize;
 var Sequelize = dbConfig.Sequelize;
 
@@ -31,6 +32,14 @@ var productSchema = sequelize.define('products',
 	image: {
 		type: Sequelize.TEXT,
 		allowNull: true
+	},
+	user_id: {
+		type: Sequelize.INTEGER,
+		allowNull: false,
+		references: {
+			model: "users",
+			key: "id"
+		}
 	}
 }, {
 	//Options

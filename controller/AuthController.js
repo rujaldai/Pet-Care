@@ -94,7 +94,6 @@ function verifyToken(req, res, next) {
 	 * To send from client: Bearer[space]token 
 	 */
 
-	 console.log(req);
 	 if(req.headers.authorization) {
 	 	var token = req.headers.authorization.slice(7, req.headers.authorization.size);
 	 	jwt.verify(token, secretOrPrivateKey, function(err, result) {
