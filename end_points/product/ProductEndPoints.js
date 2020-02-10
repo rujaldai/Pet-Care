@@ -4,8 +4,8 @@ module.exports = (function() {
     var authController = require("../../controller/AuthController");
 
 routes.post('/add', authController.verifyToken, productController.validator, productController.updateIntoProduct);
-routes.get('/:userId/all', authController.verifyToken, productController.fetchAllByUserId);
-routes.get('/all', authController.verifyToken, productController.fetchAllProducts);
+routes.get('/:userId/all', productController.fetchAllByUserId);
+routes.get('/all', productController.fetchAllProducts);
 
 // routes.delete('/:id', authController.verifyToken, userController.deleteUser);
 
