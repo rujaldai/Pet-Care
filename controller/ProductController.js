@@ -1,6 +1,5 @@
 'use strict';
 
-var bcrypt = require('bcrypt');
 var productSchema = require('../entity/ProductSchema.js');
 var ProductType = require("../enums/ProductTypeEnum");
 
@@ -19,11 +18,11 @@ function validator(req, res, next) {
 		console.log("Description not found ");
 		res.status(500);
 		res.json({status:500, message: 'Description is required'});
-	} else if (req.body.type == undefined || req.body.type === '') {
+	} else if (!ProductType.exists(req.body.type)) {
 		console.log("Product type not found ");
 		res.status(500);
 		res.json({status:500, message: 'Product Type is required'});
-	} else if (req.body.userId == undefined || req.body.userId === '') {
+	} else if (req.body.user_id == undefined || req.body.user_id === '') {
 		console.log("User id is required ");
 		res.status(500);
 		res.json({status:500, message: 'User id is required'});
@@ -40,7 +39,7 @@ function updateIntoProduct(req, res) {
         type: product.type,
         desc: product.desc,
 		image: product.image,
-		user_id: product.userId
+		user_id: product.user_id
         
 	}).then(function(success) {
 		if (success) {

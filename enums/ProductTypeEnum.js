@@ -2,15 +2,15 @@ module.exports = (function() {
     'use strict';
 
     const ProductTypeEnum = {
-        PET: "PET",
+        PET: "PETS",
         ACCESSORIES: "ACCESSORIES",
-        SERVICE: "SERVICE",
+        SERVICE: "SERVICES",
         properties: {
 
         },
         exists: function (productType) {
             for (var key in ProductTypeEnum) {
-                if(UserTypeEnum[key] === productType) {
+                if(ProductTypeEnum[key] === productType) {
                     return true;
                 }
             }
