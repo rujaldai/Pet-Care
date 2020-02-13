@@ -6,6 +6,7 @@ module.exports = (function() {
 routes.post('/add', authController.verifyToken, productController.validator, productController.updateIntoProduct);
 routes.get('/:userId/all', productController.fetchAllByUserId);
 routes.get('/all', productController.fetchAllProducts);
+routes.post('/:id', productController.deleteProduct);
 
 // routes.delete('/:id', authController.verifyToken, userController.deleteUser);
 
