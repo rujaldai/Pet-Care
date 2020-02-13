@@ -63,7 +63,7 @@ function deleteProduct(req, res, next) {
 		res.status(500);
 		res.json({ message: "Please specify id", status: 500 });
 	} else {
-		userSchema.userSchema.destroy({
+		productSchema.productSchema.destroy({
 			where: {
 				id: req.params.id
 			}
