@@ -1,7 +1,7 @@
 module.exports = ( function() {
     'use strict';
     var routes = require("express").Router();
-    var userEndPoints = require("./user/UserEndpoints");
+    var userEndPoints = require("./User/UserEndpoints");
     var productEndPoints = require("./product/ProductEndPoints");
     var uploadEndPoints = require("./upload/UploadEndpoint");
 
