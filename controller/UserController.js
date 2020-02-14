@@ -30,7 +30,7 @@ function validator(req, res, next) {
 		console.log("password not found ");
 		res.status(500);
         res.json({status:500, message: 'password is required'});
-	} else if(!UserType.exists(req.body.userType)) {
+	} else if(!UserType.exists(req.body.user_type)) {
 		console.log("User type invalid or not found.");
 		res.status(500);
 		res.json({status: 500, message: "User type invalid or not found"});
@@ -85,7 +85,7 @@ function updateIntoUser(user, hashedPassword) {
 		fullname: user.fullname,
 		email: user.email,
 		password: hashedPassword,
-		user_type: user.userType,
+		user_type: user.user_type,
 		phone: user.phone,
 		mobile: user.mobile,
 		address1: user.address1,

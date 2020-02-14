@@ -40,10 +40,17 @@ function validator(req, res, next) {
 function passwordChecker(req, res, next) {
 	console.log(req.body.password);
 	console.log(req.dataValues);
-	bcrypt.compare(req.hashedPassword, req.hashedPassword)
+	bcrypt.compare(req.body.password, req.hashedPassword)
 		.then(function(result) {
 			console.log(result);
-			next();
+
+			if(result) {
+				next();
+			} else {
+				res.status(403);
+				res.json({status: 403, message: "Username or password donot match"});
+			}
+			
 		})
 		.catch(function(error) {
 			console.log(error);
