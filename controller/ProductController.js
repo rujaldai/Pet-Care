@@ -2,6 +2,8 @@
 
 var productSchema = require('../entity/ProductSchema.js');
 var ProductType = require("../enums/ProductTypeEnum");
+var bookingSchema = require('../entity/Booking.js');
+var BookingStatusEnum = require("../enums/BookingEnum.js");
 
 
 function validator(req, res, next) {
@@ -57,6 +59,91 @@ function insertIntoProduct(req, res) {
 		res.json({ message: "Could not insert Product!!!", status: 500 })
 	})
 }
+
+
+function initiateBooking(req, res) {
+	console.log(req.body);
+	var booking = req.body;
+	bookingSchema.bookingSchema.create({
+		name: booking.name,
+		contact: booking.contact,
+		address: booking.address,
+		product_id: booking.product_id,
+		user_id: booking.user_id,
+		status : BookingStatusEnum.PENDING
+	}).then(function (success) {
+		if (success) {
+			console.log("Product successfully booked");
+			res.json({ status: 200, message: "Product booked successfully", product: success });
+		} else {
+			console.log("Product could not be booked");
+			res.status(500);
+			res.json({ message: "Could not book Product!!!", status: 500 })
+		}
+	}).catch(function (err) {
+		console.log(err);
+		console.log("err while booking product");
+		res.status(500);
+		res.json({ message: "Could not book Product!!!", status: 500 })
+	})
+}
+
+function fetchAllBooking(req, res, next) {
+	console.log(req.params);
+	bookingSchema.bookingSchema.findAll({
+		where: {
+			user_id: req.params.userId
+		}
+	}).then(function (result) {
+		console.log(result)
+		res.status(200);
+		res.json({
+			booking: result,
+			status: 200,
+		})
+	}, function (err) {
+		console.log(err);
+		res.status(500);
+		res.json({ status: 500, message: "Unable to fetch products." });
+	});
+}
+
+function updateBooking(req, res, next) {
+	console.log("inside update booking");
+	var booking = req.body;
+	bookingSchema.bookingSchema.findOne({ 
+		where: {
+			id: booking.id
+		} 
+	}).then(function (previousBook) {
+		if(!BookingStatusEnum.exists(booking.status)){
+			res.status(400);
+			res.json({status: 200, message: "status update failed.", "booking": booking})
+		}
+
+		if (previousBook) {
+			previousBook.update({
+				status: booking.status,
+			}).then(function (product) {
+				console.log("Successfuly updated");
+				console.log(product);
+				res.status(200);
+				res.json({status: 200, message: "Successfully updated", "product": product})
+			}).catch(function(err){
+				console.log(err);
+				res.status(500);
+				res.json({status:500, message:"Could not update!"});
+			});
+		}
+	}).catch(function (err) {
+		console.log(err);
+		console.log("err while updating  booking status");
+		res.status(500);
+		res.json({ message: "Could not update booking status!!!", status: 500 })
+	});
+}
+
+
 
 function deleteProduct(req, res, next) {
 	if (req.params.id === null || req.params.id === undefined) {
@@ -172,4 +259,4 @@ function updateIntoProduct(req, res, next) {
 	});
 }
 
-module.exports = { validator, fetchProductByProductName, deleteProduct, updateIntoProduct, fetchAllByUserId, fetchAllProducts, insertIntoProduct };
+module.exports = { validator, fetchProductByProductName, deleteProduct, updateIntoProduct, fetchAllByUserId, fetchAllProducts, insertIntoProduct, initiateBooking, fetchAllBooking, updateBooking };
