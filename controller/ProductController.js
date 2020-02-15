@@ -134,7 +134,6 @@ function fetchAllProducts(req, res, next) {
 		res.status(500);
 		res.json({ status: 500, message: "Unable to fetch products." });
 	});
-
 }
 
 function updateIntoProduct(req, res, next) {

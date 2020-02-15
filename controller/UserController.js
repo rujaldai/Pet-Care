@@ -143,4 +143,15 @@ function fetchUserByUsername(username) {
 	});
 }
 
-module.exports = {validator, passwordCheck, generateHash, deleteUser, fetchUserByUsername, getHashFromString};
+function fetchAllUser(req, res, next) {
+	console.log("fetch all user");
+	userSchema.userSchema.findAll().then(function(result){
+		console.log(result)
+		res.status(200);
+		res.json({
+			users: result,	
+			status: 200,
+		})
+	})
+};
+module.exports = {validator, passwordCheck, generateHash, deleteUser, fetchUserByUsername, getHashFromString, fetchAllUser};
