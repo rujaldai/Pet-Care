@@ -3,7 +3,7 @@ var sequelize = dbConfig.sequelize;
 var Sequelize = dbConfig.Sequelize;
 
 
-var productSchema = sequelize.define('products',
+var bookingSchema = sequelize.define('booking',
 // attributes
 {
 	id: {
@@ -15,22 +15,22 @@ var productSchema = sequelize.define('products',
 	name: {
 		type: Sequelize.TEXT,
 		allowNull: false	
-	},
-	price: {
-		type: Sequelize.DECIMAL(10, 2),
-		allowNull: false	
-	},
-    type: {
+    },
+    contact: {
 		type: Sequelize.TEXT,
 		allowNull: false	
-	},
-	desc: {
+    },
+    address: {
 		type: Sequelize.TEXT,
-		allowNull: true
+		allowNull: false	
 	},
-	image: {
-		type: Sequelize.TEXT,
-		allowNull: true
+	product_id: {
+		type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+			model: "products",
+			key: "id"
+		}	
 	},
 	user_id: {
 		type: Sequelize.INTEGER,
@@ -39,20 +39,24 @@ var productSchema = sequelize.define('products',
 			model: "users",
 			key: "id"
 		}
-	}
+	},
+	status: {
+		type: Sequelize.TEXT,
+		allowNull: false	
+    },
 }, {
 	//Options
 	paranoid: true,
 	freezeTableName: false,
-	tableName: 'products'
+	tableName: 'booking'
 });
 
-productSchema.sync({ /* stop forcing updating table */ force: false})
+bookingSchema.sync({ /* stop forcing updating table */ force: false})
 .then(function(result){
-	console.log("inside productSchema sync:: " + result);
+	console.log("inside booking schema sync:: " + result);
 })
 .catch(function(err) {
 	console.log(err);
 });
 
-module.exports = {productSchema};
+module.exports = {bookingSchema};
