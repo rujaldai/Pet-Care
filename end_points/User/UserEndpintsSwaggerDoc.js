@@ -15,7 +15,7 @@
 *         in: formData
 *         type: string
 *         required: true
-*         description: Please provide unique username
+*         description: Please provide name 
 *       - name: password
 *         in: formData
 *         type: string
