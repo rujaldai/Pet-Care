@@ -32,9 +32,13 @@ var bookingSchema = sequelize.define('booking',
 			key: "id"
 		}
 	},
-	quantity: {
+	user_id: {
 		type: Sequelize.INTEGER,
-		allowNull: true
+		allowNull: true,
+		references: {
+			model: "users",
+			key: "id"
+		}
 	},
 	status: {
 		type: Sequelize.TEXT,
