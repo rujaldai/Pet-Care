@@ -4,6 +4,7 @@ var productSchema = require('../entity/ProductSchema.js');
 var ProductType = require("../enums/ProductTypeEnum");
 var bookingSchema = require('../entity/Booking.js');
 var BookingStatusEnum = require("../enums/BookingEnum.js");
+var BookingProductList = require("../entity/BookingProductList");
 
 
 function validator(req, res, next) {
@@ -35,6 +36,9 @@ function validator(req, res, next) {
 
 function insertIntoProduct(req, res) {
 	var product = req.body;
+
+
+
 	productSchema.productSchema.create({
 		name: product.name,
 		price: product.price,
@@ -257,6 +261,8 @@ function updateIntoProduct(req, res, next) {
 		res.status(500);
 		res.json({ message: "Could not insert Product!!!", status: 500 })
 	});
+
 }
+
 
 module.exports = { validator, fetchProductByProductName, deleteProduct, updateIntoProduct, fetchAllByUserId, fetchAllProducts, insertIntoProduct, initiateBooking, fetchAllBooking, updateBooking };

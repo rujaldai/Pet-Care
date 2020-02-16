@@ -8,6 +8,5 @@ routes.delete('/:id', authController.verifyToken, userController.deleteUser);
 routes.post('/login', authController.validator, authController.passwordChecker, authController.jwtTokenGen);
 routes.get('/all', userController.fetchAllUser);
 
-
 return routes;
 })();

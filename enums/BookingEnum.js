@@ -5,6 +5,7 @@ module.exports = (function() {
         PENDING: "PENDING",
         DELIVERED: "DELIVERED",
         CANCELED: "CANCELED",
+        PROCESSING: "PROCESSING",
         properties: {
 
         },

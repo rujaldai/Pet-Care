@@ -26,23 +26,19 @@ var bookingSchema = sequelize.define('booking',
 	},
 	product_id: {
 		type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
 			model: "products",
 			key: "id"
-		}	
-	},
-	user_id: {
-		type: Sequelize.INTEGER,
-		allowNull: false,
-		references: {
-			model: "users",
-			key: "id"
 		}
+	},
+	quantity: {
+		type: Sequelize.INTEGER,
+		allowNull: true
 	},
 	status: {
 		type: Sequelize.TEXT,
-		allowNull: false	
+		allowNull: true	
     },
 }, {
 	//Options
@@ -50,7 +46,6 @@ var bookingSchema = sequelize.define('booking',
 	freezeTableName: false,
 	tableName: 'booking'
 });
-
 bookingSchema.sync({ /* stop forcing updating table */ force: false})
 .then(function(result){
 	console.log("inside booking schema sync:: " + result);
